@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Météo Géolocalisation</title>
+    <link rel="stylesheet" href="style.css" />
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/monkeecreate/jquery.simpleWeather/master/jquery.simpleWeather.min.js"></script>
+</head>
+
+<body>
+    <div class="weather">
+        <div class="city">
+            <p>loading weather</p>
+        </div>
+        <img class="loading" src="https://www.argento.co.uk/Interface/Icons/LoadingBasketContents.gif" alt="..." height="100px">
+        <div class="image"></div>
+        <div class="temp"></div>
+
+        <div class="wind"></div>
+        <div class="humidity"></div>
+        <div class="error"></div>
+    </div>
+    <footer><small><p>Photo by JOHN TOWNER</p></small></footer>
+</body>
+<script>
+    var units = ["c"],
+        unitsType = 0;
+    var pos = "Lyon";
+    if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            pos = position.coords.latitude + ',' + position.coords.longitude;
+            $(".loading").hide();
+            loadWeather(pos, "", units[unitsType]);
+        });
+    } else {
+        $('.city').text('Geolocation is not supported in your browser, loading weather for "Chicago, IL"');
+        setTimeout(loadWeather("Lyon", "", units[unitsType]), 2000);
+    }
+
+    function loadWeather(location, woeid, unitsType) {
+        $.simpleWeather({
+            location: location,
+            woeid: woeid,
+            unit: unitsType,
+            success: function(weather) {
+                $(".city").text(weather.city + ', ' + weather.region);
+                $(".temp").html(weather.temp + '&deg;' + weather.units.temp);
+                $(".image").html('<img src="' + weather.image + '" alt="weather icon">');
+
+                $(".wind").html('<img class="icon" src="https://cdn4.iconfinder.com/data/icons/weather-meteorology-1/32/weather-wind-512.png" alt="wind">' + Math.round(weather.wind.speed) + ' ' + weather.units.speed + '  ' + weather.wind.direction);
+                $(".humidity").html('<img class="icon" src="http://icons.iconarchive.com/icons/icons8/ios7/512/Science-Humidity-icon.png" alt="H">' + Math.round(weather.humidity) + ' %');
+            },
+            error: function(error) {
+                $(".error").html('<p>' + error + '</p>');
+            }
+        });
+    }
+
+    $('.temp').click(function() {
+        unitsType = (unitsType + 1) % 2;
+        loadWeather(pos, "", units[unitsType]);
+    });
+</script>
+
+</html>

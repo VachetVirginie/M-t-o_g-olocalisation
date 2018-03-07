@@ -1,0 +1,65 @@
+body {
+    background-image: url('meteo.jpg');
+    background-size: cover;
+    font-family: 'Londrina Shadow', cursive;
+    font-size: 35px;
+    text-align: center;
+}
+
+div {
+    margin-top: 5px;
+    padding: 10px;
+    font-weight: bold;
+    color: white;
+}
+
+.weather {
+    position: relative;
+    margin: 100px auto;
+}
+
+.image {
+    position: relative;
+    top: -105px;
+    display: inline;
+}
+
+.image img {
+    position: relative;
+    top: 145px;
+    left: 30px;
+    width: 250px;
+}
+
+.city {
+    position: relative;
+    font-size: 65px;
+    top: 30px;
+}
+
+.temp {
+    position: relative;
+    font-size: 100px;
+    display: inline;
+    top: -40px;
+    left: -30px;
+}
+
+.icon {
+    position: relative;
+    top: 8px;
+    left: -20px;
+    width: 40px;
+}
+
+.wind,
+.humidity {
+    height: 30px;
+    position: relative;
+    top: -40px;
+}
+
+footer {
+    color: white;
+    text-align: center;
+}
